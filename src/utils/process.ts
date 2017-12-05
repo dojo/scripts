@@ -1,25 +1,61 @@
 import * as childProcess from 'child_process';
+import { Observable } from 'rxjs/Observable';
 
-export async function runAsPromise(command: string, args: string[]): Promise<any> {
+export interface ProcessOutput {
+	pipe: 'stdout' | 'stderr';
+	chunk: string;
+}
+
+export async function runAsPromise(command: string, args: string[], options: any = {}): Promise<any> {
 	return new Promise((resolve, reject) => {
-		const process = childProcess.spawn(command, args);
-		let stdout = '';
 		let stderr = '';
+		let stdout = '';
+
+		runAsObservable(command, args, options).subscribe(chunk => {
+			if (chunk.pipe === 'stdout') {
+				stdout += chunk.chunk;
+			}
+			else if (chunk.pipe === 'stderr') {
+				stderr += chunk.chunk;
+			}
+		}, () => {
+			reject(stderr);
+		}, () => {
+			resolve(stdout);
+		});
+	});
+}
+
+export function runAsObservable(command: string, args: string[], options: any = {}) {
+	return new Observable<ProcessOutput>(subscriber => {
+		const process = childProcess.spawn(command, args, {
+			shell: true,
+			...options
+		});
+
+		process.stdout.setEncoding('utf8');
+		process.stderr.setEncoding('utf8');
 
 		process.stdout.on('data', data => {
-			stdout = stdout + data.toString();
+			subscriber.next({
+				pipe: 'stdout',
+				chunk: data.toString()
+			});
 		});
 
 		process.stderr.on('data', data => {
-			stderr = stderr + data.toString();
+			subscriber.next({
+				pipe: 'stderr',
+				chunk: data.toString()
+			});
 		});
 
 		process.once('close', (code) => {
 			if (code <= 0) {
-				resolve(stdout);
+				subscriber.complete();
 			}
 			else {
-				reject(stderr);
+				subscriber.error();
 			}
 		});
 	});

@@ -1,5 +1,5 @@
 {
-  "name": "dojo-scripts",
+  "name": "@dojo/scripts",
   "version": "2.0.0-pre",
   "description": "Scripts for developing Dojo2 packages",
   "engines": {
@@ -22,19 +22,32 @@
     "url": "https://github.com/dojo/scripts.git"
   },
   "scripts": {
-    "build": "tsc -p . && cp -R src/*.json _build/src/"
+    "clean": "rimraf dist",
+    "build": "tsc && copyfiles \"src/**/*.json\" dist/cjs && copyfiles \"src/bin/*\" dist/cjs",
+    "package": "node dist/cjs/src/package.js",
+    "link": "cd dist/release && npm link"
+  },
+  "bin": {
+    "dojo-can-publish-check": "./bin/dojo-can-publish-check",
+    "dojo-repo-is-clean-check": "./bin/dojo-repo-is-clean-check",
+    "dojo-install-peer-deps": "./bin/dojo-install-peer-deps",
+    "dojo-package": "./bin/dojo-package",
+    "dojo-release": "./bin/dojo-release",
+    "dojo-tsc-watcher": "./bin/dojo-tsc-watcher"
   },
   "devDependencies": {
-    "@dojo/loader": "beta1",
-    "@types/chalk": "^2.2.0",
-    "@types/glob": "5.0.*",
-    "@types/grunt": "0.4.*",
-    "@types/node": "^8.0.54",
+    "@types/node": "^6.0.54",
+    "@types/yargs": "^8.0.2",
     "codecov.io": "0.1.6",
+    "copyfiles": "^1.2.0",
+    "rimraf": "^2.6.2",
+    "tslint": "~5.8.0",
+    "intern": "~4.1.4",
     "typescript": "~2.6.2"
   },
   "dependencies": {
     "chalk": "^2.3.0",
-    "cli-spinner": "^0.2.7"
+    "rxjs": "^5.5.6",
+    "yargs": "^10.0.3"
   }
 }
