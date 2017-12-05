@@ -1,0 +1,40 @@
+{
+  "name": "dojo-scripts",
+  "version": "2.0.0-pre",
+  "description": "Scripts for developing Dojo2 packages",
+  "engines": {
+    "npm": ">=3.0.0"
+  },
+  "private": true,
+  "homepage": "http://dojo.io",
+  "bugs": {
+    "url": "https://github.com/dojo/scripts/issues"
+  },
+  "license": "BSD-3-Clause",
+  "main": "main.js",
+  "files": [
+    "dist",
+    "src",
+    "typings.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dojo/scripts.git"
+  },
+  "scripts": {
+    "build": "tsc -p . && cp -R src/*.json _build/src/"
+  },
+  "devDependencies": {
+    "@dojo/loader": "beta1",
+    "@types/chalk": "^2.2.0",
+    "@types/glob": "5.0.*",
+    "@types/grunt": "0.4.*",
+    "@types/node": "^8.0.54",
+    "codecov.io": "0.1.6",
+    "typescript": "~2.6.2"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "cli-spinner": "^0.2.7"
+  }
+}
