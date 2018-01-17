@@ -61,6 +61,12 @@ destDirectories.forEach(({ dest: destDir, flat, packageJson }) => {
 		['private', 'scripts', 'files'].forEach(k => delete packageJson[k]);
 
 		fs.writeFileSync(path.join(destDirFullPath, 'package.json'), JSON.stringify(packageJson, undefined, 4));
+
+		// copy README.md
+		if(fs.existsSync('README.md')) {
+			const readmeContent = fs.readFileSync('README.md');
+			fs.writeFileSync(path.join(destDirFullPath, 'README.md'),readmeContent);
+		}
 	}
 });
 
