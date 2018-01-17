@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { runAsPromise } from './utils/process';
 
-(async function () {
+(async function() {
 	const gitOutput = (await runAsPromise('git', ['status', '--porcelain'])).trim();
 
 	if (gitOutput) {

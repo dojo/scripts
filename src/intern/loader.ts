@@ -12,22 +12,24 @@ intern.registerLoader(async (options: any) => {
 		main: 'sinon'
 	});
 
-	(<any> require).config(shimAmdDependencies({
-		baseUrl,
-		...options,
-		packages
-	}));
+	(<any>require).config(
+		shimAmdDependencies({
+			baseUrl,
+			...options,
+			packages
+		})
+	);
 
 	// load @dojo/shim/main to import the ts helpers
 	await new Promise<void>((resolve) => {
-		(<any> require)(['@dojo/shim/main'], () => {
+		(<any>require)(['@dojo/shim/main'], () => {
 			resolve();
 		});
 	});
 
 	return (modules: string[]) => {
 		return new Promise<void>((resolve, reject) => {
-			(<any> require)(modules, () => resolve());
+			(<any>require)(modules, () => resolve());
 		});
 	};
 });

@@ -4,15 +4,14 @@ import * as path from 'path';
 export function glob(base: string): string[] {
 	let files: string[] = [];
 
-	fs.readdirSync(base).forEach(file => {
+	fs.readdirSync(base).forEach((file) => {
 		const fullPath = path.join(base, file);
 
 		if (fs.statSync(fullPath).isDirectory()) {
-			glob(fullPath).forEach(subFile => {
+			glob(fullPath).forEach((subFile) => {
 				files.push(path.join(file, subFile));
 			});
-		}
-		else {
+		} else {
 			files.push(file);
 		}
 	});
@@ -34,7 +33,7 @@ export function copy(sourceFile: string, destFile: string, transform?: ContentTr
 		base = path.dirname(base);
 	}
 
-	directoriesThatNeedToExist.reverse().forEach(dir => {
+	directoriesThatNeedToExist.reverse().forEach((dir) => {
 		fs.mkdirSync(dir);
 	});
 
@@ -46,7 +45,7 @@ export function copy(sourceFile: string, destFile: string, transform?: ContentTr
 	fs.writeFileSync(destFile, content);
 }
 
-export function parseWithFullExtension(filePath: string): { path: string, file: string, extension: string } {
+export function parseWithFullExtension(filePath: string): { path: string; file: string; extension: string } {
 	const parsed = path.parse(filePath);
 	let extension = '';
 

@@ -5,11 +5,11 @@ import { runAsPromise } from './utils/process';
 const yargs = require('yargs');
 
 const {
-	'release': releaseVersion,
-	'next': nextVersion,
+	release: releaseVersion,
+	next: nextVersion,
 	'dry-run': dryRun,
-	'tag': releaseTag,
-	'initial': isInitialRelease
+	tag: releaseTag,
+	initial: isInitialRelease
 } = yargs
 	.option('release', {
 		type: 'string'
@@ -28,15 +28,13 @@ const {
 	.option('initial', {
 		type: 'boolean',
 		default: false
-	})
-	.argv;
+	}).argv;
 
 async function command(bin: string, args: string[], options: any = {}, executeOnDryRun = false) {
 	if (dryRun && !executeOnDryRun) {
 		if (options.cwd) {
 			console.log(chalk.gray(`(from ${options.cwd}) ${bin} ${args.join(' ')}`));
-		}
-		else {
+		} else {
 			console.log(chalk.gray(`${bin} ${args.join(' ')}`));
 		}
 		return Promise.resolve('');
@@ -47,10 +45,10 @@ async function command(bin: string, args: string[], options: any = {}, executeOn
 	return runAsPromise(bin, args, options);
 }
 
-(async function () {
-	const hasDojoRemote = (await command('git', ['remote'], {}, true))
-		.split(EOL)
-		.filter((remote: string) => remote.trim() === 'dojo').length === 1;
+(async function() {
+	const hasDojoRemote =
+		(await command('git', ['remote'], {}, true)).split(EOL).filter((remote: string) => remote.trim() === 'dojo')
+			.length === 1;
 
 	console.log(chalk.yellow(`Version: ${releaseVersion}`));
 	console.log(chalk.yellow(`Next Version: ${nextVersion}`));
@@ -64,8 +62,7 @@ async function command(bin: string, args: string[], options: any = {}, executeOn
 	// run the release command
 	if (isInitialRelease) {
 		await command('npm', ['publish', '--tag', releaseTag, '--access', 'public'], { cwd: 'dist/release' });
-	}
-	else {
+	} else {
 		await command('npm', ['publish', '--tag', releaseTag], { cwd: 'dist/release' });
 	}
 

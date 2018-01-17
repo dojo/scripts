@@ -32,12 +32,10 @@ for (let i = 0; i < args.length; i++) {
 	if (args[i] === '-p') {
 		if (i + 1 >= args.length) {
 			usage();
-		}
-		else {
+		} else {
 			projectDirs.push(args[i + 1]);
 		}
-	}
-	else if (args[i] === '--force') {
+	} else if (args[i] === '--force') {
 		runOnCompilationErrors = true;
 	}
 }
@@ -63,53 +61,58 @@ for (const projectDir of projectDirs) {
 	let buffer = '';
 
 	let resolver: any;
-	firstCompiles.push(new Promise<void>(resolve => {
-		resolver = resolve;
-	}));
+	firstCompiles.push(
+		new Promise<void>((resolve) => {
+			resolver = resolve;
+		})
+	);
 
 	const compilationObserver = new Subject<CompilationCompletionEvent>();
 	compilationCompleted.push(compilationObserver);
 
-	runAsObservable('./node_modules/.bin/tsc', tscArgs, options).subscribe(chunk => {
-		if (chunk.pipe === 'stdout') {
-			buffer += chunk.chunk;
-		}
-
-		while (true) {
-			let index = buffer.indexOf(marker);
-			if (index === -1) {
-				break;
+	runAsObservable('./node_modules/.bin/tsc', tscArgs, options).subscribe(
+		(chunk) => {
+			if (chunk.pipe === 'stdout') {
+				buffer += chunk.chunk;
 			}
 
-			resolver();
+			while (true) {
+				let index = buffer.indexOf(marker);
+				if (index === -1) {
+					break;
+				}
 
-			compilationObserver.next({
-				command: `tsc ${tscArgs.join(' ')}`,
-				output: buffer.trim()
-			});
-			buffer = buffer.slice(index + marker.length);
+				resolver();
+
+				compilationObserver.next({
+					command: `tsc ${tscArgs.join(' ')}`,
+					output: buffer.trim()
+				});
+				buffer = buffer.slice(index + marker.length);
+			}
+		},
+		() => {
+			console.error(`tsc ${tscArgs.join(' ')} process exited`);
+		},
+		() => {
+			console.log(`tsc ${tscArgs.join(' ')} process exited gracefully`);
 		}
-	}, () => {
-		console.error(`tsc ${tscArgs.join(' ')} process exited`);
-	}, () => {
-		console.log(`tsc ${tscArgs.join(' ')} process exited gracefully`);
-	});
+	);
 }
 
 Promise.all(firstCompiles).then(() => {
 	console.log(chalk.yellow('Initial compilation finished. Watching for changes...'));
 });
 
-Observable.zip(...compilationCompleted).subscribe(values => {
+Observable.zip(...compilationCompleted).subscribe((values) => {
 	let didError = false;
 
-	values.forEach(event => {
+	values.forEach((event) => {
 		console.log(chalk.white(event.command));
 		if (event.output.indexOf(errorToken) >= 0) {
 			console.log(chalk.red(event.output));
 			didError = true;
-		}
-		else {
+		} else {
 			console.log(chalk.gray(event.output));
 		}
 	});
@@ -121,4 +124,3 @@ Observable.zip(...compilationCompleted).subscribe(values => {
 		});
 	}
 });
-

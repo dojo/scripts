@@ -20,12 +20,10 @@ if (peerDepsFound) {
 	try {
 		exec(packageCmd, { stdio: 'ignore' });
 		console.log('complete.');
-	}
-	catch (error) {
+	} catch (error) {
 		console.error(error);
 		console.error('failed.');
 	}
-}
-else {
+} else {
 	console.log('No peer dependencies detected.');
 }

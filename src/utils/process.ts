@@ -11,23 +11,26 @@ export async function runAsPromise(command: string, args: string[], options: any
 		let stderr = '';
 		let stdout = '';
 
-		runAsObservable(command, args, options).subscribe(chunk => {
-			if (chunk.pipe === 'stdout') {
-				stdout += chunk.chunk;
+		runAsObservable(command, args, options).subscribe(
+			(chunk) => {
+				if (chunk.pipe === 'stdout') {
+					stdout += chunk.chunk;
+				} else if (chunk.pipe === 'stderr') {
+					stderr += chunk.chunk;
+				}
+			},
+			() => {
+				reject(stderr);
+			},
+			() => {
+				resolve(stdout);
 			}
-			else if (chunk.pipe === 'stderr') {
-				stderr += chunk.chunk;
-			}
-		}, () => {
-			reject(stderr);
-		}, () => {
-			resolve(stdout);
-		});
+		);
 	});
 }
 
 export function runAsObservable(command: string, args: string[], options: any = {}) {
-	return new Observable<ProcessOutput>(subscriber => {
+	return new Observable<ProcessOutput>((subscriber) => {
 		const process = childProcess.spawn(command, args, {
 			shell: true,
 			...options
@@ -36,14 +39,14 @@ export function runAsObservable(command: string, args: string[], options: any = 
 		process.stdout.setEncoding('utf8');
 		process.stderr.setEncoding('utf8');
 
-		process.stdout.on('data', data => {
+		process.stdout.on('data', (data) => {
 			subscriber.next({
 				pipe: 'stdout',
 				chunk: data.toString()
 			});
 		});
 
-		process.stderr.on('data', data => {
+		process.stderr.on('data', (data) => {
 			subscriber.next({
 				pipe: 'stderr',
 				chunk: data.toString()
@@ -53,8 +56,7 @@ export function runAsObservable(command: string, args: string[], options: any = 
 		process.once('close', (code) => {
 			if (code <= 0) {
 				subscriber.complete();
-			}
-			else {
+			} else {
 				subscriber.error();
 			}
 		});
