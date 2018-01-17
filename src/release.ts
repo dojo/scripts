@@ -8,7 +8,8 @@ const {
 	'release': releaseVersion,
 	'next': nextVersion,
 	'dry-run': dryRun,
-	'tag': releaseTag
+	'tag': releaseTag,
+	'initial': isInitialRelease
 } = yargs
 	.option('release', {
 		type: 'string'
@@ -23,6 +24,10 @@ const {
 	.option('tag', {
 		type: 'string',
 		default: 'next'
+	})
+	.option('initial', {
+		type: 'boolean',
+		default: false
 	})
 	.argv;
 
@@ -57,7 +62,12 @@ async function command(bin: string, args: string[], options: any = {}, executeOn
 	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], {}, false);
 
 	// run the release command
-	await command('npm', ['publish', '--tag', releaseTag], { cwd: 'dist/release' });
+	if (isInitialRelease) {
+		await command('npm', ['publish', '--tag', releaseTag, '--access', 'public'], { cwd: 'dist/release' });
+	}
+	else {
+		await command('npm', ['publish', '--tag', releaseTag], { cwd: 'dist/release' });
+	}
 
 	// commit the changes
 	await command('git', ['commit', '-am', `"${releaseVersion}"`], false);
