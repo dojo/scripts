@@ -124,7 +124,9 @@ Several scripts are provided to ease the release process.
 
 #### Can Publish Checks
 
-To check if the user is allowed to publish, run the `dojo-can-publish-check` script. The script will fail with a `1` exit code if the user cannot publish.
+To check if the user is allowed to publish, run the `dojo-can-publish-check` script. The script will fail with a `1` exit code if the user cannot publish. The script checks that the user is logged into npm and that the user is in the maintainers list for the package.
+
+If the package has never been published, the maintainers list will be empty and the check will always fail. Pass the `--initial` flag to skip the maintainers check.
 
 #### Clean Repo Checks
 
