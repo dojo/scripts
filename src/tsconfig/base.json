@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"downlevelIteration": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"inlineSources": true,
+		"lib": [
+			"dom",
+			"es5",
+			"es2015.iterable",
+			"es2015.promise",
+			"es2015.symbol",
+			"es2015.symbol.wellknown"
+		],
+		"moduleResolution": "node",
+		"removeComments": false,
+		"sourceMap": true,
+		"strict": true,
+		"types": [ "intern" ]
+	},
+	"include": [
+		"../../../../src/**/*.ts",
+		"../../../../tests/**/*.ts"
+	]
+}

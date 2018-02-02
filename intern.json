@@ -1,0 +1,6 @@
+{
+	"extends": "./src/intern/base.json",
+	"capabilities+": {
+		"name": "@dojo/scripts"
+	}
+}

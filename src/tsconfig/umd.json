@@ -1,0 +1,8 @@
+{
+	"extends": "./base.json",
+	"compilerOptions": {
+		"module": "umd",
+		"target": "es5",
+		"outDir": "../../../../dist/umd/"
+	}
+}

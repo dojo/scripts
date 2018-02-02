@@ -1,0 +1,14 @@
+{
+	"extends": "./src/tsconfig/commonjs.json",
+	"compilerOptions": {
+		"declaration": false,
+		"downlevelIteration": false,
+		"importHelpers": false,
+		"outDir": "dist/cjs",
+		"types": [ "node" ]
+	},
+	"include": [
+		"./src/**/*.ts",
+		"./tests/**/*.ts"
+	]
+}
