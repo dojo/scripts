@@ -20,10 +20,10 @@ export function glob(base: string): string[] {
 }
 
 export interface ContentTransform {
-	(content: string): string;
+	(content: string, flat: boolean): string;
 }
 
-export function copy(sourceFile: string, destFile: string, transform?: ContentTransform) {
+export function copy(sourceFile: string, destFile: string, flat: boolean, transform?: ContentTransform) {
 	// dest file path must exist all the way down
 	const directoriesThatNeedToExist = [];
 	let base = path.dirname(destFile);
@@ -39,7 +39,7 @@ export function copy(sourceFile: string, destFile: string, transform?: ContentTr
 
 	let content: string | Buffer = fs.readFileSync(sourceFile);
 	if (transform) {
-		content = transform(content.toString());
+		content = transform(content.toString(), flat);
 	}
 
 	fs.writeFileSync(destFile, content);

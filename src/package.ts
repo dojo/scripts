@@ -29,9 +29,15 @@ const extensionMapByDir: { [key: string]: { [key: string]: string } } = {
 };
 
 const contentTransformsByDir: { [key: string]: { [key: string]: ContentTransform } } = {
+	cjs: {
+		'.js.map': fixSourceMap
+	},
 	esm: {
 		'.mjs': remapMjsSourceMap,
 		'.mjs.map': fixMjsSourceMap
+	},
+	umd: {
+		'.js.map': fixSourceMap
 	}
 };
 
@@ -53,7 +59,7 @@ destDirectories.forEach(({ dest: destDir, flat, packageJson }) => {
 
 			const destFile = path.join(destDirFullPath, parsed.path, parsed.file + parsed.extension);
 
-			copy(sourceFile, destFile, transformMap[parsed.extension]);
+			copy(sourceFile, destFile, flat, transformMap[parsed.extension]);
 		});
 	});
 
@@ -76,7 +82,23 @@ function remapMjsSourceMap(contents: string): string {
 	return contents.replace(/(\/\/.*sourceMappingURL=.*?)(\.js\.map)/g, '$1.mjs.map');
 }
 
-function fixMjsSourceMap(contents: string): string {
+function fixSourceMap(contents: string, flat: boolean): string {
+	if (flat) {
+		const json = JSON.parse(contents);
+
+		if (json.sources) {
+			json.sources = json.sources.map((source: string) => path.basename(source));
+		}
+
+		return JSON.stringify(json);
+	}
+
+	return contents;
+}
+
+function fixMjsSourceMap(contents: string, flat: boolean): string {
+	contents = fixSourceMap(contents, flat);
+
 	const json = JSON.parse(contents);
 
 	if (json.file) {
