@@ -40,10 +40,10 @@
   "devDependencies": {
     "@types/node": "^6.0.54",
     "@types/yargs": "^8.0.2",
-    "codecov.io": "0.1.6",
+    "codecov": "~3.0.4",
     "copyfiles": "^1.2.0",
     "husky": "^0.14.3",
-    "intern": "~4.1.4",
+    "intern": "~4.2.0",
     "lint-staged": "^6.0.0",
     "prettier": "^1.10.2",
     "rimraf": "^2.6.2",
