@@ -29,14 +29,14 @@
 			{
 				"name": "jsoncoverage",
 				"options": {
-					"directory": ".",
+					"directory": "coverage",
 					"filename": "coverage.json"
 				}
 			},
 			{
 				"name": "htmlcoverage",
 				"options": {
-					"directory": "html-report"
+					"directory": "coverage/html-report"
 				}
 			}
 		]
@@ -73,7 +73,7 @@
 			},
 
 			"environments+": [
-				{ "browserName": "chrome" }
+				{ "browserName": "chrome", "version": "2.40" }
 			]
 		},
 
