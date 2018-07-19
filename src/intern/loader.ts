@@ -12,7 +12,7 @@ intern.registerLoader(async (options: any) => {
 	await intern.loadScript(loaderPath);
 	await intern.loadScript(shimPath);
 
-	(<any>require).config(
+	(require as any).config(
 		shimAmdDependencies({
 			baseUrl,
 			...options,
@@ -61,14 +61,14 @@ intern.registerLoader(async (options: any) => {
 
 	// load @dojo/framework/shim/main to import the ts helpers
 	await new Promise<void>((resolve) => {
-		(<any>require)(['@dojo/framework/shim/main'], () => {
+		(require as any)(['@dojo/framework/shim/main'], () => {
 			resolve();
 		});
 	});
 
 	return (modules: string[]) => {
 		return new Promise<void>((resolve, reject) => {
-			(<any>require)(modules, () => resolve());
+			(require as any)(modules, () => resolve());
 		});
 	};
 });

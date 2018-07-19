@@ -15,6 +15,12 @@
 		],
 		"moduleResolution": "node",
 		"noUnusedLocals": true,
+		"plugins": [
+			{
+				"name": "tslint-language-service",
+				"alwaysShowRuleFailuresAsWarnings": true
+			}
+		],
 		"removeComments": false,
 		"sourceMap": true,
 		"strict": true,
