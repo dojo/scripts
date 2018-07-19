@@ -83,7 +83,6 @@ function getGitRemote(gitBaseRemote: string): string | false {
 
 (async function() {
 	const gitRemote = getGitRemote('git@github.com:dojo/');
-	const npmRegistryArgs = npmRegistry ? ['--registry', npmRegistry] : [];
 
 	console.log(chalk.yellow(`Version: ${releaseVersion}`));
 	console.log(chalk.yellow(`Next Version: ${nextVersion}`));
@@ -111,16 +110,22 @@ function getGitRemote(gitBaseRemote: string): string | false {
 	}
 
 	// update the version
-	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], { cwd: 'dist/release' }, false);
-	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], {}, false);
+	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], { cwd: 'dist/release' }, true);
+	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], {}, true);
 
-	// run the release command
-	if (isInitialRelease) {
-		await command('npm', ['publish', '--tag', releaseTag, '--access', 'public', ...npmRegistryArgs], {
-			cwd: 'dist/release'
-		});
-	} else {
-		await command('npm', ['publish', '--tag', releaseTag, ...npmRegistryArgs], { cwd: 'dist/release' });
+	const npmPublishArgs = [
+		'publish',
+		'--tag',
+		releaseTag,
+		...(isInitialRelease ? ['--access', 'public'] : []),
+		...(npmRegistry ? ['--registry', npmRegistry] : [])
+	];
+
+	// run the publish command
+	await command('npm', npmPublishArgs, { cwd: 'dist/release' });
+
+	if (dryRun) {
+		await command('npm', ['pack', './release'], { cwd: 'dist' }, true);
 	}
 
 	// commit the changes
@@ -130,7 +135,8 @@ function getGitRemote(gitBaseRemote: string): string | false {
 	await command('git', ['tag', `"v${releaseVersion}"`], false);
 
 	// update the package meta version to next
-	await command('npm', ['version', nextVersion, '--no-git-tag-version'], {}, false);
+	await command('npm', ['version', nextVersion, '--no-git-tag-version'], { cwd: 'dist/release' }, true);
+	await command('npm', ['version', nextVersion, '--no-git-tag-version'], {}, true);
 
 	// commit the changes
 	await command('git', ['commit', '-am', `"Update package metadata"`], false);
