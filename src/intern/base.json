@@ -21,26 +21,17 @@
 	},
 
 	"node": {
+		"plugins+": [
+			{ "script": "@dojo/scripts/intern/reporter.js", "useLoader": true }
+		],
 		"reporters": [
 			{
-				"name": "runner",
-				"options": { "hideSkipped": true, "hidePassed": true }
-			},
-			{
-				"name": "jsoncoverage",
-				"options": {
-					"directory": "coverage",
-					"filename": "coverage.json"
-				}
-			},
-			{
-				"name": "htmlcoverage",
-				"options": {
-					"directory": "coverage/html-report"
-				}
+				"name": "dojo-scripts"
 			}
 		]
 	},
+
+	"reporters": [],
 
 	"coverage": [
 		"./dist/dev/src/**/*.js"

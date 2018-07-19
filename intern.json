@@ -2,5 +2,11 @@
 	"extends": "./src/intern/base.json",
 	"capabilities+": {
 		"name": "@dojo/scripts"
+	},
+	"node": {
+		"plugins": [
+			{ "script": "./dist/dev/src/intern/reporter.js", "useLoader": true }
+		],
+		"reporters": [{ "name": "dojo-scripts" }]
 	}
 }
