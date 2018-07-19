@@ -29,6 +29,7 @@
     "lint": "tslint -p .",
     "prettier": "prettier --write 'src/**/*.ts*' 'tests/**/*.ts*'",
     "precommit": "lint-staged",
+    "release": "npm run build && npm run package && node ./dist/release/release.js",
     "test": "npm run lint && npm run build && npm run package && intern"
   },
   "bin": {
