@@ -1,6 +1,4 @@
 {
-	"rulesDirectory": ["tslint-plugin-prettier"],
-	"extends": ["tslint-config-prettier"],
 	"rules": {
 		"align": false,
 		"ban": [],
@@ -31,7 +29,6 @@
 		"no-var-keyword": true,
 		"no-var-requires": false,
 		"object-literal-sort-keys": false,
-		"prettier": true,
 		"radix": true,
 		"triple-equals": [ true, "allow-null-check" ],
 		"typedef": false,
