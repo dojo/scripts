@@ -111,7 +111,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 
 	// update the version
 	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], { cwd: 'dist/release' }, true);
-	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], {}, true);
+	await command('npm', ['version', releaseVersion, '--no-git-tag-version'], {}, false);
 
 	const npmPublishArgs = [
 		'publish',
@@ -136,7 +136,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 
 	// update the package meta version to next
 	await command('npm', ['version', nextVersion, '--no-git-tag-version'], { cwd: 'dist/release' }, true);
-	await command('npm', ['version', nextVersion, '--no-git-tag-version'], {}, true);
+	await command('npm', ['version', nextVersion, '--no-git-tag-version'], {}, false);
 
 	// commit the changes
 	await command('git', ['commit', '-am', `"Update package metadata"`], false);
