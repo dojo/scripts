@@ -17,7 +17,15 @@
 	],
 
 	"browser": {
-		"loader": "./node_modules/@dojo/scripts/intern/loader.js"
+		"loader": "./node_modules/@dojo/scripts/intern/loader.js",
+		"reporters": [
+			{
+				"name": "html"
+			},
+			{
+				"name": "console"
+			}
+		]
 	},
 
 	"node": {
