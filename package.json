@@ -36,7 +36,7 @@
     "lint": "run-p lint:*",
     "prettier": "prettier --write \"{src,tests}/**/*.ts\"",
     "precommit": "lint-staged",
-    "release": "run-s lint build \"dojo-release -- {@}\" --",
+    "release": "run-s lint clean build \"dojo-release -- {@}\" --",
     "test": "run-s lint build intern"
   },
   "bin": {
