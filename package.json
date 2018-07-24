@@ -1,7 +1,7 @@
 {
   "name": "@dojo/scripts",
   "version": "3.0.0-pre",
-  "description": "Scripts for developing Dojo2 packages",
+  "description": "Scripts for developing Dojo packages",
   "engines": {
     "npm": ">=3.0.0"
   },
@@ -26,16 +26,17 @@
     "build:static:bin": "cpx \"src/bin/*\" dist/cjs/src/bin",
     "build:static": "cpx \"src/**/*.json\" dist/cjs/src",
     "build:cjs": "tsc",
-    "build": "npm-run-all -p build:** -s package",
+    "build": "npm-run-all -p build:** -s dojo-package",
+    "dojo-package": "node dist/cjs/src/package.js",
+    "dojo-release": "node dist/cjs/src/release.js",
     "intern": "intern",
     "link": "cd dist/release && npm link",
     "lint:ts": "tslint -p .",
     "lint:prettier": "prettier -l \"{src,tests}/**/*.{ts,tsx}\"",
     "lint": "run-p lint:*",
-    "package": "node dist/cjs/src/package.js",
     "prettier": "prettier --write \"{src,tests}/**/*.ts\"",
     "precommit": "lint-staged",
-    "release": "node ./dist/release/release.js",
+    "release": "run-s lint build \"dojo-release -- {@}\" --",
     "test": "run-s lint build intern"
   },
   "bin": {
