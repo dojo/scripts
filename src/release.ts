@@ -92,7 +92,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 
 	console.log(chalk.yellow(`Version: ${releaseVersion}`));
 	console.log(chalk.yellow(`Next Version: ${nextVersion}`));
-	console.log(chalk.yellow(`Next Version: ${releaseBranch}`));
+	console.log(chalk.yellow(`Release Branch: ${releaseBranch}`));
 	console.log(chalk.yellow(`Dry Run: ${dryRun}`));
 	console.log(chalk.yellow(`Push Back: ${pushBack}`));
 	if (gitRemote) {
