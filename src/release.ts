@@ -10,6 +10,7 @@ const {
 	'dry-run': dryRun,
 	'push-back': pushBack,
 	'skip-checks': skipChecks,
+	branch: releaseBranch,
 	tag: releaseTag,
 	initial: isInitialRelease,
 	registry: npmRegistry
@@ -19,6 +20,7 @@ const {
 	'dry-run': boolean;
 	'push-back': boolean;
 	'skip-checks': boolean;
+	branch: string;
 	tag: string;
 	initial: boolean;
 	registry: string | undefined;
@@ -42,6 +44,10 @@ const {
 	.option('push-back', {
 		type: 'boolean',
 		default: false
+	})
+	.option('branch', {
+		type: 'string',
+		default: 'master'
 	})
 	.option('tag', {
 		type: 'string',
@@ -86,6 +92,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 
 	console.log(chalk.yellow(`Version: ${releaseVersion}`));
 	console.log(chalk.yellow(`Next Version: ${nextVersion}`));
+	console.log(chalk.yellow(`Release Branch: ${releaseBranch}`));
 	console.log(chalk.yellow(`Dry Run: ${dryRun}`));
 	console.log(chalk.yellow(`Push Back: ${pushBack}`));
 	if (gitRemote) {
@@ -104,7 +111,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 		return;
 	}
 
-	if (!skipChecks && (!(await canPublish(isInitialRelease)) || !(await isRepoClean()))) {
+	if (!skipChecks && (!(await canPublish(isInitialRelease)) || !(await isRepoClean(releaseBranch)))) {
 		process.exit(1);
 		return;
 	}
@@ -142,7 +149,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 	await command('git', ['commit', '-am', `"Update package metadata"`], false);
 
 	if (pushBack && gitRemote) {
-		await command('git', ['push', gitRemote, 'master'], false);
+		await command('git', ['push', gitRemote, releaseBranch], false);
 		await command('git', ['push', gitRemote, '--tags'], false);
 	}
 })();

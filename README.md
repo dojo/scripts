@@ -130,7 +130,7 @@ If the package has never been published, the maintainers list will be empty and 
 
 #### Clean Repo Checks
 
-A safe release is a clean release. To check if there are no uncommitted changes, and the user is `master`, run the`dojo-repo-is-clean-check` script. The script will fail with a `1` exit code if the repo is dirty.
+A safe release is a clean release. To check if there are no uncommitted changes, and the user is on the correct branch for release, run the`dojo-repo-is-clean-check` script. The script will fail with a `1` exit code if the repo is dirty.
 
 #### Release
 
@@ -141,6 +141,7 @@ The `dojo-release` script can release a dojo package. The `dist/release` directo
 | `—release` |         | The version to release                   |
 | `—next`    |         | The next version (`package.json` version gets set to this) |
 | `—dry-run` | `false` | Shows the commands that will be run but does not run the commands |
+| `-branch`  | `master`| The branch to perform the release on |
 | `—tag`     | `next`  | The tag to pass to `npm publish`         |
 | `—initial` | `false` | Is this the initial release? If true, the `npm publish` command is run with `—access public` |
 

@@ -26,7 +26,7 @@ export async function canPublish(isInitialRelease: boolean) {
 	return true;
 }
 
-export async function isRepoClean() {
+export async function isRepoClean(releaseBranch: string) {
 	const gitOutput = (await runAsPromise('git', ['status', '--porcelain'])).trim();
 
 	if (gitOutput) {
@@ -35,8 +35,8 @@ export async function isRepoClean() {
 	}
 
 	const revParse = (await runAsPromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).trim();
-	if (revParse !== 'master') {
-		console.log(chalk.red('not on master branch'));
+	if (revParse !== releaseBranch) {
+		console.log(chalk.red(`not on ${releaseBranch} branch`));
 		return false;
 	}
 
