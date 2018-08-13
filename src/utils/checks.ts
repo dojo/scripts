@@ -36,7 +36,7 @@ export async function isRepoClean(releaseBranch: string) {
 
 	const revParse = (await runAsPromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'])).trim();
 	if (revParse !== releaseBranch) {
-		console.log(chalk.red(`not on master ${releaseBranch}`));
+		console.log(chalk.red(`not on ${releaseBranch} branch`));
 		return false;
 	}
 
