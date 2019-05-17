@@ -11,7 +11,7 @@ interface CompilationCompletionEvent {
 }
 
 const errorToken = ': error ';
-const marker = `Compilation complete. Watching for file changes.`;
+const marker = `Watching for file changes.`;
 
 const separatorIndex = process.argv.indexOf('--');
 let runOnCompilationErrors = false;
@@ -53,7 +53,7 @@ console.log(chalk.yellow('Starting initial compilation...'));
 
 for (const projectDir of projectDirs) {
 	const options = { shell: true, cwd: process.cwd(), hideWindows: true };
-	const tscArgs = ['-w'];
+	const tscArgs = ['-w --preserveWatchOutput'];
 	if (projectDir !== '') {
 		tscArgs.push('-p', projectDir);
 	}
