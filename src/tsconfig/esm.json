@@ -1,8 +1,9 @@
 {
 	"extends": "./base.json",
 	"compilerOptions": {
-		"target": "es6",
+		"target": "es2017",
 		"module": "esnext",
+		"downlevelIteration": false,
 		"outDir": "../../../../dist/esm/"
 	}
 }
