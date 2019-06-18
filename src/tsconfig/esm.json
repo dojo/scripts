@@ -1,6 +1,7 @@
 {
 	"extends": "./base.json",
 	"compilerOptions": {
+		"importHelpers": false,
 		"target": "es2017",
 		"module": "esnext",
 		"downlevelIteration": false,
