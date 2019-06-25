@@ -1,6 +1,6 @@
 {
   "name": "@dojo/scripts",
-  "version": "4.0.2",
+  "version": "4.0.3-pre",
   "description": "Scripts for developing Dojo packages",
   "engines": {
     "npm": ">=3.0.0"
