@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { runAsPromise } from './process';
 
-export async function canPublish(isInitialRelease: boolean) {
+export async function canPublish(isInitialRelease: boolean, org?: string) {
 	let user = '';
 
 	try {
@@ -13,11 +13,15 @@ export async function canPublish(isInitialRelease: boolean) {
 	}
 
 	if (!isInitialRelease) {
-		const maintainers = JSON.parse(await runAsPromise('npm', ['view', '.', '--json'])).maintainers.map(
-			(maintainer: string) => maintainer.replace(/\s<.*/, '')
-		);
-
-		if (maintainers.indexOf(user) < 0) {
+		let users = [];
+		if (org) {
+			users = Object.keys(JSON.parse(await runAsPromise('npm', ['org', 'ls', org, '--json'])));
+		} else {
+			users = JSON.parse(await runAsPromise('npm', ['view', '.', '--json'])).maintainers.map(
+				(maintainer: string) => maintainer.replace(/\s<.*/, '')
+			);
+		}
+		if (users.indexOf(user) < 0) {
 			console.log(chalk.red(`cannot publish this package with user ${user}`));
 			return false;
 		}

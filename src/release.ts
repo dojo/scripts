@@ -13,7 +13,8 @@ const {
 	branch: releaseBranch,
 	tag: releaseTag,
 	initial: isInitialRelease,
-	registry: npmRegistry
+	registry: npmRegistry,
+	org
 }: {
 	release: string;
 	next: string;
@@ -24,6 +25,7 @@ const {
 	tag: string;
 	initial: boolean;
 	registry: string | undefined;
+	org: string;
 } = yargs
 	.option('release', {
 		type: 'string',
@@ -56,6 +58,10 @@ const {
 	.option('initial', {
 		type: 'boolean',
 		default: false
+	})
+	.option('org', {
+		type: 'string',
+		description: 'The organization of the package'
 	})
 	.option('registry', {
 		type: 'string',
@@ -111,7 +117,7 @@ function getGitRemote(gitBaseRemote: string): string | false {
 		return;
 	}
 
-	if (!skipChecks && (!(await canPublish(isInitialRelease)) || !(await isRepoClean(releaseBranch)))) {
+	if (!skipChecks && (!(await canPublish(isInitialRelease, org)) || !(await isRepoClean(releaseBranch)))) {
 		process.exit(1);
 		return;
 	}
