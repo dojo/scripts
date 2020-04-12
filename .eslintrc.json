@@ -1,0 +1,4 @@
+{
+	"extends": ["./src/eslint/base.json"]
+}
+
