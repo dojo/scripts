@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/dojo/scripts.svg?branch=master)](https://travis-ci.org/dojo/scripts )
 [![npm version](https://badge.fury.io/js/dojo-scripts.svg)](http://badge.fury.io/js/dojo-scripts)
 
-A package of scripts to aid with Dojo 2 package development.
+A package of scripts to aid with Dojo package development.
 
 ## Features
 
@@ -173,7 +173,7 @@ For example,
 
 ## How do I contribute?
 
-We appreciate your interest!  Please see the [Dojo 2 Meta Repository](https://github.com/dojo/meta#readme) for the
+We appreciate your interest!  Please see the [Dojo Meta Repository](https://github.com/dojo/meta#readme) for the
 Contributing Guidelines and Style Guide.
 
 ## Licensing information

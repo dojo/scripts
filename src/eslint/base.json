@@ -1,0 +1,60 @@
+{
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"project": "tsconfig.json",
+		"sourceType": "module"
+	},
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"rules": {
+		"@typescript-eslint/class-name-casing": "error",
+		"@typescript-eslint/explicit-member-accessibility": [
+			"off",
+			{
+				"accessibility": "explicit"
+			}
+		],
+		"@typescript-eslint/indent": "off",
+		"@typescript-eslint/interface-name-prefix": "error",
+		"@typescript-eslint/member-ordering": "off",
+		"@typescript-eslint/no-empty-function": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-inferrable-types": [ "error", { "ignoreParameters": true } ],
+		"@typescript-eslint/no-use-before-define": "off",
+		"@typescript-eslint/no-var-requires": "off",
+		"camelcase": "error",
+		"curly": "error",
+		"dot-notation": "off",
+		"eqeqeq": [
+			"error",
+			"smart"
+		],
+		"guard-for-in": "off",
+		"id-match": "error",
+		"no-bitwise": "off",
+		"no-caller": "error",
+		"no-console": "off",
+		"no-debugger": "error",
+		"no-empty": "off",
+		"no-eval": "error",
+		"no-fallthrough": "off",
+		"no-new-wrappers": "off",
+		"no-redeclare": "error",
+		"no-shadow": [
+			"off",
+			{
+				"hoist": "all"
+			}
+		],
+		"no-unused-expressions": "off",
+		"no-unused-labels": "error",
+		"no-var": "error",
+		"radix": "error",
+		"spaced-comment": "error"
+	}
+}

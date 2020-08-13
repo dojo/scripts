@@ -32,6 +32,7 @@
     "intern": "intern",
     "link": "cd dist/release && npm link",
     "lint:ts": "tslint -p .",
+    "lint:es": "eslint --quiet 'src/**/*.{ts,tsx}'",
     "lint:prettier": "prettier -l \"{src,tests}/**/*.{ts,tsx}\"",
     "lint": "run-p lint:*",
     "prettier": "prettier --write \"{src,tests}/**/*.ts\"",
@@ -61,7 +62,10 @@
     "sinon": "~4.5.0"
   },
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
     "chalk": "~2.4.0",
+    "eslint": "^6.8.0",
     "intern": "~4.3.0",
     "parse-git-config": "~2.0.2",
     "prettier": "1.13.7",
